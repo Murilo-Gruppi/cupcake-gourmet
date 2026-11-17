@@ -9,6 +9,9 @@
 # testing
 /coverage
 
+# Documentação local (não publicada no repositório)
+/docs/
+
 # next.js
 /.next/
 /out/

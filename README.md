@@ -138,15 +138,6 @@ npx playwright show-report      # Relatório HTML dos testes
 
 ```
 cupcake-gourmet/
-├── docs/                          # Documentação acadêmica
-│   ├── diagramas.md               # Casos de uso, classes, sequência, MER
-│   ├── dicionario-dados.md        # Dicionário de dados completo
-│   ├── manual-usuario.md          # Manual do usuário
-│   ├── plano-testes.md            # Plano de testes
-│   ├── evidencias-testes.md       # Evidências de execução
-│   ├── avaliacao-colegas.md       # Avaliação dos 5 colegas
-│   ├── laudo-qualidade.md         # Laudo de qualidade
-│   └── melhorias-pos-testes.md    # Registro de melhorias
 ├── prisma/
 │   ├── schema.prisma              # Schema do banco de dados
 │   ├── migrations/                # Histórico de migrations
@@ -208,21 +199,6 @@ Request
 - Preços de pedidos consultados no banco durante checkout — cliente nunca determina o preço
 - Produtos desativados (`active=false`) nunca deletados — preserva histórico de pedidos
 - Carrinho anônimo via Zustand/localStorage; autenticado via banco de dados
-
----
-
-## Documentação acadêmica
-
-Todos os artefatos exigidos pelo PRD estão na pasta `/docs`:
-
-- [Diagramas](docs/diagramas.md) — casos de uso, classes, sequência, atividades, MER
-- [Dicionário de dados](docs/dicionario-dados.md)
-- [Manual do usuário](docs/manual-usuario.md)
-- [Plano de testes](docs/plano-testes.md)
-- [Evidências dos testes](docs/evidencias-testes.md)
-- [Avaliação dos colegas](docs/avaliacao-colegas.md)
-- [Laudo de qualidade](docs/laudo-qualidade.md)
-- [Registro de melhorias](docs/melhorias-pos-testes.md)
 
 ---
 
