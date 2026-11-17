@@ -9,6 +9,8 @@ export default defineConfig({
     globals: true,
     setupFiles: ["./tests/setup.ts"],
     include: ["./tests/unit/**/*.test.ts", "./tests/integration/**/*.test.ts"],
+    // Para rodar apenas unitários: npx vitest run tests/unit
+    // Para integração (requer DB): npx vitest run tests/integration
     coverage: {
       provider: "v8",
       reporter: ["text", "html"],
