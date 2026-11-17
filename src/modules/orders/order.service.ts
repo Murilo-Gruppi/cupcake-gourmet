@@ -5,7 +5,6 @@ import { paymentService } from "@/modules/payments/payment.service";
 import { createOrderSchema, updateOrderStatusSchema } from "./order.validations";
 import {
   BadRequestError,
-  ForbiddenError,
   NotFoundError,
   ValidationError,
 } from "@/lib/errors";
