@@ -4,7 +4,7 @@ import { productService } from "@/modules/products/product.service";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils/format";
-import { Plus, Pencil, PowerOff } from "lucide-react";
+import { Plus, Pencil } from "lucide-react";
 import { DeactivateProductButton } from "./DeactivateProductButton";
 
 export const metadata: Metadata = { title: "Produtos — Admin" };
@@ -80,7 +80,10 @@ export default async function AdminProductsPage({
                         </Link>
                       </Button>
                       {product.active && (
-                        <DeactivateProductButton productId={product.id} />
+                        <DeactivateProductButton
+                          productId={product.id}
+                          productName={product.name}
+                        />
                       )}
                     </div>
                   </td>

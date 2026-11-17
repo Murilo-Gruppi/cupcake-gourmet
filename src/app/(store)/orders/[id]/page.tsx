@@ -142,42 +142,51 @@ export default async function OrderDetailPage({
             <CardTitle className="text-base">Acompanhamento</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {(
-                [
-                  { status: "PENDING", label: "Pedido recebido" },
-                  { status: "CONFIRMED", label: "Pedido confirmado" },
-                  { status: "PREPARING", label: "Em preparo" },
-                  { status: "OUT_FOR_DELIVERY", label: "Saiu para entrega" },
-                  { status: "COMPLETED", label: "Entregue" },
-                ] as const
-              ).map(({ status, label }) => {
-                const statuses: OrderStatus[] = [
-                  "PENDING", "CONFIRMED", "PREPARING", "OUT_FOR_DELIVERY", "COMPLETED",
-                ];
-                const currentIdx = statuses.indexOf(order.status as OrderStatus);
-                const stepIdx = statuses.indexOf(status);
-                const done = currentIdx >= stepIdx && order.status !== "CANCELED";
-                const current = currentIdx === stepIdx && order.status !== "CANCELED";
+            {order.status === "CANCELED" ? (
+              <div className="flex items-center gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                <div className="h-3 w-3 rounded-full bg-destructive shrink-0" />
+                <span className="text-sm font-medium text-destructive">
+                  Pedido cancelado
+                </span>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {(
+                  [
+                    { status: "PENDING", label: "Pedido recebido" },
+                    { status: "CONFIRMED", label: "Pedido confirmado" },
+                    { status: "PREPARING", label: "Em preparo" },
+                    { status: "OUT_FOR_DELIVERY", label: "Saiu para entrega" },
+                    { status: "COMPLETED", label: "Entregue" },
+                  ] as const
+                ).map(({ status, label }) => {
+                  const statuses: OrderStatus[] = [
+                    "PENDING", "CONFIRMED", "PREPARING", "OUT_FOR_DELIVERY", "COMPLETED",
+                  ];
+                  const currentIdx = statuses.indexOf(order.status as OrderStatus);
+                  const stepIdx = statuses.indexOf(status);
+                  const done = currentIdx >= stepIdx;
+                  const current = currentIdx === stepIdx;
 
-                return (
-                  <div key={status} className="flex items-center gap-3">
-                    <div
-                      className={`h-3 w-3 rounded-full shrink-0 ${
-                        done ? "bg-primary" : "bg-muted"
-                      } ${current ? "ring-2 ring-primary ring-offset-1" : ""}`}
-                    />
-                    <span
-                      className={`text-sm ${
-                        done ? "text-foreground font-medium" : "text-muted-foreground"
-                      }`}
-                    >
-                      {label}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
+                  return (
+                    <div key={status} className="flex items-center gap-3">
+                      <div
+                        className={`h-3 w-3 rounded-full shrink-0 ${
+                          done ? "bg-primary" : "bg-muted"
+                        } ${current ? "ring-2 ring-primary ring-offset-1" : ""}`}
+                      />
+                      <span
+                        className={`text-sm ${
+                          done ? "text-foreground font-medium" : "text-muted-foreground"
+                        }`}
+                      >
+                        {label}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
