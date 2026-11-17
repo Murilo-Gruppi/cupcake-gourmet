@@ -12,7 +12,7 @@ export const createProductSchema = z.object({
     .max(1000, "Descrição deve ter no máximo 1000 caracteres.")
     .trim(),
   price: z
-    .number({ invalid_type_error: "Preço deve ser um número." })
+    .number()
     .positive("Preço deve ser maior que zero.")
     .multipleOf(0.01, "Preço deve ter no máximo 2 casas decimais."),
   imageUrl: z
@@ -20,7 +20,7 @@ export const createProductSchema = z.object({
     .url("URL de imagem inválida.")
     .optional()
     .or(z.literal("")),
-  categoryId: z.string().cuid("Categoria inválida."),
+  categoryId: z.string().min(1, "Categoria é obrigatória."),
 });
 
 export const updateProductSchema = createProductSchema
@@ -31,7 +31,7 @@ export const updateProductSchema = createProductSchema
 
 export const productFiltersSchema = z.object({
   search: z.string().optional(),
-  categoryId: z.string().cuid().optional(),
+  categoryId: z.string().min(1).optional(),
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().max(50).default(12),
 });
