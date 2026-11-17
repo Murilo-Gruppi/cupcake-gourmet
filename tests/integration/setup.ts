@@ -10,13 +10,19 @@
  */
 
 import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { hash } from "bcryptjs";
 
 let _testPrisma: PrismaClient | null = null;
 
 function getTestPrisma(): PrismaClient {
   if (!_testPrisma) {
-    _testPrisma = new PrismaClient({ log: ["error"] });
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      throw new Error("DATABASE_URL não está definida.");
+    }
+    const adapter = new PrismaPg({ connectionString });
+    _testPrisma = new PrismaClient({ adapter, log: ["error"] });
   }
   return _testPrisma;
 }
