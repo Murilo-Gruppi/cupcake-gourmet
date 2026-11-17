@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ShoppingCart, User, LogOut, LayoutDashboard } from "lucide-react";
 import { auth, signOut } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { MobileNav } from "./MobileNav";
 
 export async function Header() {
   const session = await auth();
@@ -40,6 +41,11 @@ export async function Header() {
 
         {/* Ações */}
         <div className="flex items-center gap-2">
+          {/* Menu mobile */}
+          <MobileNav
+            userName={session?.user?.name?.split(" ")[0]}
+            isAdmin={session?.user?.role === "ADMIN"}
+          />
           {/* Carrinho */}
           <Button variant="ghost" size="icon" asChild>
             <Link href="/cart" aria-label="Carrinho">
@@ -48,7 +54,7 @@ export async function Header() {
           </Button>
 
           {session ? (
-            <div className="flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-1">
               {/* Admin link */}
               {session.user.role === "ADMIN" && (
                 <Button variant="ghost" size="sm" asChild>
@@ -63,7 +69,7 @@ export async function Header() {
               <Button variant="ghost" size="sm" asChild>
                 <Link href="/orders">
                   <User className="h-4 w-4 mr-1" />
-                  <span className="hidden sm:inline">{session.user.name.split(" ")[0]}</span>
+                  <span>{session.user.name.split(" ")[0]}</span>
                 </Link>
               </Button>
 
@@ -80,7 +86,7 @@ export async function Header() {
               </form>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
               <Button variant="ghost" size="sm" asChild>
                 <Link href="/login">Entrar</Link>
               </Button>
