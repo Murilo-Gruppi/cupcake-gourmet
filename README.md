@@ -1,217 +1,231 @@
 # 🧁 Cupcake Gourmet
 
-Plataforma de vendas online e gerenciamento de pedidos para uma loja de cupcakes gourmet.
+Plataforma de vendas online e gerenciamento de pedidos para uma confeitaria artesanal.
 
-**Projeto Integrador Transdisciplinar em Engenharia de Software II**  
-Aluno: Murilo Bandeira Gruppi — RGM: 34169679
-
----
-
-## 📋 Sobre o Projeto
-
-Aplicação web responsiva desenvolvida com Next.js App Router, que permite aos clientes consultar produtos, realizar compras e acompanhar pedidos. Inclui painel administrativo para gerenciamento de produtos e pedidos.
+**Projeto Integrador Transdisciplinar em Engenharia de Software II**
+**Aluno:** Murilo Bandeira Gruppi — RGM 34169679
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 
-| Tecnologia | Uso |
-|---|---|
-| Next.js 14 (App Router) | Framework principal |
-| TypeScript | Linguagem |
-| Tailwind CSS + shadcn/ui | Estilização |
-| PostgreSQL | Banco de dados |
-| Prisma ORM | Acesso ao banco |
-| Docker Compose | Infraestrutura local |
-| next-auth v5 | Autenticação |
-| Zod | Validação |
-| Zustand | Estado do carrinho (cliente) |
-| Vitest | Testes unitários e de integração |
-| Playwright | Testes end-to-end |
+| Camada | Tecnologia |
+|--------|-----------|
+| Framework | Next.js 14 (App Router) + TypeScript |
+| UI | Tailwind CSS + Radix UI |
+| ORM | Prisma 7 |
+| Banco de dados | PostgreSQL 16 (Docker) |
+| Autenticação | next-auth v5 (JWT + Credentials) |
+| Validação | Zod |
+| Testes unitários/integração | Vitest |
+| Testes E2E | Playwright |
 
 ---
 
-## 🚀 Como Executar Localmente
+## Pré-requisitos
 
-### Pré-requisitos
+- [Node.js](https://nodejs.org) >= 20
+- [Docker](https://docker.com) e Docker Compose
+- [Git](https://git-scm.com)
 
-- Node.js 18+
-- Docker e Docker Compose
+---
 
-### 1. Clonar e instalar dependências
+## Configuração do ambiente
+
+### 1. Clone o repositório
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/seu-usuario/cupcake-gourmet.git
 cd cupcake-gourmet
+```
+
+### 2. Instale as dependências
+
+```bash
 npm install
 ```
 
-### 2. Configurar variáveis de ambiente
+### 3. Configure as variáveis de ambiente
 
 ```bash
 cp .env.example .env
 ```
 
-Edite o `.env` se necessário. Os valores padrão funcionam com o Docker Compose.
+Edite o `.env` se necessário. Para desenvolvimento local, os valores padrão já funcionam.
 
-> ⚠️ Gere uma nova `AUTH_SECRET` para produção:
-> ```bash
-> openssl rand -base64 32
-> ```
+```env
+DATABASE_URL="postgresql://cupcake:cupcake123@localhost:5432/cupcake_gourmet"
+AUTH_SECRET="sua-chave-secreta-aqui-minimo-32-chars"
+AUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+```
 
-### 3. Iniciar o banco de dados
+### 4. Inicie o banco de dados
 
 ```bash
 npm run db:up
 ```
 
-Aguarde o container ficar saudável (cerca de 10 segundos).
+Aguarde o PostgreSQL iniciar (healthcheck automático via Docker Compose).
 
-### 4. Executar migrations
+### 5. Execute as migrations
 
 ```bash
 npm run db:migrate
 ```
 
-> Em produção, use `npm run db:migrate:prod`
-
-### 5. Popular banco com dados iniciais
+### 6. Popule o banco com dados iniciais
 
 ```bash
 npm run db:seed
 ```
 
 Isso cria:
-- 4 categorias de produtos
-- 10 cupcakes de exemplo
-- 1 usuário admin: `admin@cupcakegourmet.com` / `Admin@123456`
-- 1 usuário cliente: `cliente@exemplo.com` / `Cliente@123456`
+- 4 categorias (Clássicos, Especiais, Veganos, Sem Glúten)
+- 10 produtos
+- 1 usuário administrador
+- 1 usuário cliente de teste
 
-### 6. Iniciar a aplicação
+### 7. Inicie a aplicação
 
 ```bash
 npm run dev
 ```
 
-Acesse: [http://localhost:3000](http://localhost:3000)
+Acesse: **http://localhost:3000**
 
 ---
 
-## 🧪 Testes
+## Credenciais de acesso (ambiente de desenvolvimento)
+
+| Perfil | E-mail | Senha |
+|--------|--------|-------|
+| Administrador | `admin@cupcakegourmet.com` | `Admin@123456` |
+| Cliente | `cliente@exemplo.com` | `Cliente@123456` |
+
+---
+
+## Scripts disponíveis
 
 ```bash
-# Testes unitários
-npm test
+# Desenvolvimento
+npm run dev          # Inicia servidor Next.js em modo desenvolvimento
+npm run build        # Build de produção
+npm run start        # Inicia servidor de produção
 
-# Testes com cobertura
-npm run test:coverage
+# Banco de dados
+npm run db:up        # Inicia PostgreSQL via Docker Compose
+npm run db:down      # Para o PostgreSQL
+npm run db:migrate   # Executa migrations pendentes
+npm run db:seed      # Popula banco com dados iniciais
+npm run db:studio    # Abre Prisma Studio (GUI do banco)
+npm run db:reset     # Reseta banco e reaplica migrations
 
-# Testes E2E (requer aplicação rodando)
-npm run test:e2e
+# Testes
+npm run test                    # Testes unitários (Vitest)
+npm run test:watch              # Testes em modo watch
+npm run test:coverage           # Testes com relatório de cobertura
+
+# E2E (requer servidor rodando)
+npx playwright test             # Todos os testes E2E
+npx playwright test --ui        # Interface visual do Playwright
+npx playwright show-report      # Relatório HTML dos testes
 ```
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## Estrutura do projeto
 
 ```
-src/
-├── app/
-│   ├── (store)/          # Páginas da loja (catálogo, carrinho, etc.)
-│   ├── (auth)/           # Login e cadastro
-│   ├── admin/            # Painel administrativo
-│   └── api/              # Route Handlers (Controllers)
-├── components/           # Componentes React reutilizáveis
-├── modules/              # Lógica de negócio (Services + Repositories)
-│   ├── auth/
-│   ├── products/
-│   ├── cart/
-│   ├── orders/
-│   └── payments/
-├── lib/                  # Utilitários e configurações
-└── types/                # Tipos TypeScript compartilhados
-```
-
----
-
-## 🔐 Perfis de Acesso
-
-| Perfil | Permissões |
-|---|---|
-| `CUSTOMER` | Consultar catálogo, gerenciar carrinho, realizar pedidos, consultar próprios pedidos |
-| `ADMIN` | Todas as permissões de CUSTOMER + gerenciar produtos e todos os pedidos |
-
----
-
-## 📡 API
-
-| Método | Endpoint | Descrição | Auth |
-|---|---|---|---|
-| GET | `/api/products` | Listar produtos | — |
-| GET | `/api/products/:id` | Consultar produto | — |
-| POST | `/api/auth/register` | Cadastrar cliente | — |
-| GET | `/api/cart` | Consultar carrinho | CUSTOMER |
-| POST | `/api/cart/items` | Adicionar item | CUSTOMER |
-| PATCH | `/api/cart/items/:id` | Alterar quantidade | CUSTOMER |
-| DELETE | `/api/cart/items/:id` | Remover item | CUSTOMER |
-| POST | `/api/orders` | Criar pedido | CUSTOMER |
-| GET | `/api/orders` | Listar meus pedidos | CUSTOMER |
-| GET | `/api/orders/:id` | Detalhe do pedido | CUSTOMER |
-| GET | `/api/admin/products` | Listar produtos (admin) | ADMIN |
-| POST | `/api/admin/products` | Criar produto | ADMIN |
-| PATCH | `/api/admin/products/:id` | Atualizar produto | ADMIN |
-| DELETE | `/api/admin/products/:id` | Desativar produto | ADMIN |
-| GET | `/api/admin/orders` | Listar todos os pedidos | ADMIN |
-| GET | `/api/admin/orders/:id` | Detalhe do pedido | ADMIN |
-| PATCH | `/api/admin/orders/:id/status` | Atualizar status | ADMIN |
-
----
-
-## 🗄️ Banco de Dados
-
-```bash
-# Abrir Prisma Studio (interface visual)
-npm run db:studio
-
-# Parar o banco
-npm run db:down
-
-# Resetar (apaga todos os dados)
-npm run db:reset
+cupcake-gourmet/
+├── docs/                          # Documentação acadêmica
+│   ├── diagramas.md               # Casos de uso, classes, sequência, MER
+│   ├── dicionario-dados.md        # Dicionário de dados completo
+│   ├── manual-usuario.md          # Manual do usuário
+│   ├── plano-testes.md            # Plano de testes
+│   ├── evidencias-testes.md       # Evidências de execução
+│   ├── avaliacao-colegas.md       # Avaliação dos 5 colegas
+│   ├── laudo-qualidade.md         # Laudo de qualidade
+│   └── melhorias-pos-testes.md    # Registro de melhorias
+├── prisma/
+│   ├── schema.prisma              # Schema do banco de dados
+│   ├── migrations/                # Histórico de migrations
+│   └── seed.ts                    # Script de seed
+├── src/
+│   ├── app/
+│   │   ├── (store)/               # Rotas públicas da loja
+│   │   ├── (auth)/                # Login e cadastro
+│   │   ├── admin/                 # Painel administrativo
+│   │   └── api/                   # Route Handlers (REST API)
+│   ├── components/
+│   │   ├── ui/                    # Componentes base (shadcn/ui manual)
+│   │   ├── layout/                # Header, Footer, AdminSidebar, MobileNav
+│   │   ├── products/              # ProductCard, ProductGrid, etc.
+│   │   ├── cart/                  # CartItemRow, CartSummary
+│   │   └── orders/                # OrderStatusBadge, OrderCard
+│   ├── modules/                   # Lógica de negócio (Service/Repository)
+│   │   ├── auth/
+│   │   ├── products/
+│   │   ├── cart/
+│   │   ├── orders/
+│   │   └── payments/
+│   ├── lib/
+│   │   ├── prisma.ts              # Singleton PrismaClient
+│   │   ├── auth.ts                # next-auth config (Node.js)
+│   │   ├── auth.config.ts         # next-auth config (Edge-safe)
+│   │   ├── errors.ts              # Hierarquia de erros da aplicação
+│   │   └── utils/                 # cn(), formatCurrency(), etc.
+│   ├── hooks/                     # useCart
+│   ├── store/                     # Zustand (carrinho anônimo)
+│   └── middleware.ts              # Proteção de rotas (Edge Runtime)
+├── tests/
+│   ├── unit/                      # Testes unitários (Vitest)
+│   ├── integration/               # Testes de integração (Vitest + DB real)
+│   └── e2e/                       # Testes E2E (Playwright)
+├── docker-compose.yml
+├── prisma.config.ts               # Configuração Prisma 7
+├── .env.example
+└── vitest.config.ts
 ```
 
 ---
 
-## 📦 Scripts Disponíveis
+## Arquitetura
 
-| Script | Descrição |
-|---|---|
-| `npm run dev` | Inicia em modo desenvolvimento |
-| `npm run build` | Build de produção |
-| `npm run start` | Inicia build de produção |
-| `npm test` | Executa testes unitários |
-| `npm run test:coverage` | Testes com relatório de cobertura |
-| `npm run test:e2e` | Testes end-to-end |
-| `npm run db:up` | Inicia o PostgreSQL via Docker |
-| `npm run db:down` | Para o PostgreSQL |
-| `npm run db:migrate` | Executa migrations |
-| `npm run db:seed` | Popula banco com dados iniciais |
-| `npm run db:studio` | Interface visual do Prisma |
-| `npm run db:generate` | Regenera o Prisma Client |
+A aplicação implementa arquitetura modular inspirada em MVC:
 
----
+```
+Request
+  └── Route Handler (Controller) — validação HTTP, sessão
+        └── Service — regras de negócio, orquestração
+              └── Repository — queries Prisma
+                    └── PostgreSQL
+```
 
-## 📝 Status de Desenvolvimento
-
-- [x] Sprint 1 — Fundação (configuração, banco, estrutura, 27 testes unitários)
-- [x] Sprint 2 — Interface: shadcn/ui, layout, auth, catálogo, painel admin
-- [x] Sprint 3 — Carrinho, checkout, pedidos (cliente + admin)
-- [ ] Sprint 4 — Painel Admin completo + Qualidade
-- [ ] Sprint 5 — Validação + Entrega
+**Decisões arquiteturais relevantes:**
+- Middleware no Edge Runtime usa `auth.config.ts` (sem Prisma) para evitar bundling de módulos Node.js
+- Prisma 7 requer `PrismaPg` driver adapter explícito — configurado em `prisma.ts` e `seed.ts`
+- Preços de pedidos consultados no banco durante checkout — cliente nunca determina o preço
+- Produtos desativados (`active=false`) nunca deletados — preserva histórico de pedidos
+- Carrinho anônimo via Zustand/localStorage; autenticado via banco de dados
 
 ---
 
-## 📄 Documentação
+## Documentação acadêmica
 
-- [`PRD.md`](./PRD.md) — Documento de Requisitos do Produto
-- `docs/` — Diagramas e documentação técnica (em desenvolvimento)
+Todos os artefatos exigidos pelo PRD estão na pasta `/docs`:
+
+- [Diagramas](docs/diagramas.md) — casos de uso, classes, sequência, atividades, MER
+- [Dicionário de dados](docs/dicionario-dados.md)
+- [Manual do usuário](docs/manual-usuario.md)
+- [Plano de testes](docs/plano-testes.md)
+- [Evidências dos testes](docs/evidencias-testes.md)
+- [Avaliação dos colegas](docs/avaliacao-colegas.md)
+- [Laudo de qualidade](docs/laudo-qualidade.md)
+- [Registro de melhorias](docs/melhorias-pos-testes.md)
+
+---
+
+## Licença
+
+Projeto acadêmico — uso educacional.
