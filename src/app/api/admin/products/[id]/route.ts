@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server";
+import type { Session } from "next-auth";
 import { auth } from "@/lib/auth";
 import { productService } from "@/modules/products/product.service";
 import { successResponse, handleRouteError, errorResponse } from "@/lib/utils/http";
 
-function requireAdmin(session: Awaited<ReturnType<typeof auth>>) {
+function requireAdmin(session: Session | null) {
   if (!session?.user) return errorResponse("Não autorizado.", 401);
   if (session.user.role !== "ADMIN") return errorResponse("Acesso negado.", 403);
   return null;
@@ -29,7 +30,7 @@ export async function PATCH(
 
 // DELETE /api/admin/products/:id — desativa o produto (RN11)
 export async function DELETE(
-  _req: NextRequest,
+  _req: Request,
   { params }: { params: { id: string } }
 ) {
   try {

@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server";
+import type { Session } from "next-auth";
 import { auth } from "@/lib/auth";
 import { productService } from "@/modules/products/product.service";
 import { successResponse, handleRouteError, errorResponse } from "@/lib/utils/http";
 
-function requireAdmin(session: Awaited<ReturnType<typeof auth>>) {
+function requireAdmin(session: Session | null) {
   if (!session?.user) return errorResponse("Não autorizado.", 401);
   if (session.user.role !== "ADMIN") return errorResponse("Acesso negado.", 403);
   return null;
@@ -17,11 +18,13 @@ export async function GET(req: NextRequest) {
     if (denied) return denied;
 
     const { searchParams } = new URL(req.url);
+    const rawPage = searchParams.get("page");
+    const rawLimit = searchParams.get("limit");
     const filters = {
       search: searchParams.get("search") ?? undefined,
       categoryId: searchParams.get("categoryId") ?? undefined,
-      page: searchParams.get("page") ?? undefined,
-      limit: searchParams.get("limit") ?? undefined,
+      page: rawPage ? Number(rawPage) : undefined,
+      limit: rawLimit ? Number(rawLimit) : undefined,
     };
     const result = await productService.listProductsAdmin(filters);
     return successResponse(result);

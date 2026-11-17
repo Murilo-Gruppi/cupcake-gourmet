@@ -28,7 +28,7 @@ export const createOrderSchema = z.object({
 
 export const updateOrderStatusSchema = z.object({
   status: z.nativeEnum(OrderStatus, {
-    errorMap: () => ({ message: "Status de pedido inválido." }),
+    message: "Status de pedido inválido.",
   }),
 });
 

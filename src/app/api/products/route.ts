@@ -6,11 +6,13 @@ import { successResponse, handleRouteError } from "@/lib/utils/http";
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
+    const rawPage = searchParams.get("page");
+    const rawLimit = searchParams.get("limit");
     const filters = {
       search: searchParams.get("search") ?? undefined,
       categoryId: searchParams.get("categoryId") ?? undefined,
-      page: searchParams.get("page") ?? undefined,
-      limit: searchParams.get("limit") ?? undefined,
+      page: rawPage ? Number(rawPage) : undefined,
+      limit: rawLimit ? Number(rawLimit) : undefined,
     };
     const result = await productService.listProducts(filters);
     return successResponse(result);

@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server";
+import type { Session } from "next-auth";
 import { auth } from "@/lib/auth";
 import { orderService } from "@/modules/orders/order.service";
 import { successResponse, handleRouteError, errorResponse } from "@/lib/utils/http";
 
-function requireAdmin(session: Awaited<ReturnType<typeof auth>>) {
+function requireAdmin(session: Session | null) {
   if (!session?.user) return errorResponse("Não autorizado.", 401);
   if (session.user.role !== "ADMIN") return errorResponse("Acesso negado.", 403);
   return null;
