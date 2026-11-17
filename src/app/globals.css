@@ -2,26 +2,105 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Tema Cupcake Gourmet — tons de confeitaria */
+    --background: 0 0% 99%;
+    --foreground: 345 10% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 345 10% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 345 10% 15%;
+
+    /* Rosa principal — cobertura de cupcake */
+    --primary: 345 70% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Creme suave */
+    --secondary: 30 50% 95%;
+    --secondary-foreground: 345 10% 25%;
+
+    --muted: 30 20% 94%;
+    --muted-foreground: 345 5% 50%;
+
+    /* Dourado/caramelo */
+    --accent: 35 85% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 20% 88%;
+    --input: 30 20% 88%;
+    --ring: 345 70% 60%;
+
+    --radius: 0.75rem;
+
+    /* Cores customizadas */
+    --cream: 40 60% 96%;
+    --blush: 345 50% 92%;
+    --caramel: 35 70% 55%;
+    --chocolate: 25 50% 25%;
+  }
+
+  .dark {
+    --background: 345 15% 8%;
+    --foreground: 30 20% 95%;
+
+    --card: 345 15% 10%;
+    --card-foreground: 30 20% 95%;
+
+    --popover: 345 15% 10%;
+    --popover-foreground: 30 20% 95%;
+
+    --primary: 345 65% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 345 15% 15%;
+    --secondary-foreground: 30 20% 85%;
+
+    --muted: 345 15% 15%;
+    --muted-foreground: 345 5% 55%;
+
+    --accent: 35 70% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 345 15% 18%;
+    --input: 345 15% 18%;
+    --ring: 345 65% 65%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .gradient-primary {
+    @apply bg-gradient-to-r from-rose-400 to-pink-500;
+  }
+
+  .gradient-cream {
+    @apply bg-gradient-to-br from-rose-50 via-orange-50 to-amber-50;
   }
 }
