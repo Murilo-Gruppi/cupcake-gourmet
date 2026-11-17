@@ -1,10 +1,9 @@
-import { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
 import { cartService } from "@/modules/cart/cart.service";
 import { successResponse, handleRouteError, errorResponse } from "@/lib/utils/http";
 
 // GET /api/cart
-export async function GET(_req: NextRequest) {
+export async function GET() {
   try {
     const session = await auth();
     if (!session?.user?.id) return errorResponse("Não autorizado.", 401);

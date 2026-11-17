@@ -23,7 +23,7 @@ export default async function CheckoutPage() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         {/* Formulário — ocupa mais espaço */}
         <div className="lg:col-span-3">
-          <CheckoutForm userId={session.user.id} />
+          <CheckoutForm />
         </div>
 
         {/* Resumo do pedido */}

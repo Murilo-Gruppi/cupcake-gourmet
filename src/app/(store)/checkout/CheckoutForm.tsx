@@ -9,10 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import { AlertCircle, Loader2, CreditCard, Landmark, Banknote } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
-interface CheckoutFormProps {
-  userId: string;
-}
-
 type FieldErrors = Record<string, string[] | Record<string, string[]>>;
 
 const PAYMENT_METHODS = [
@@ -27,7 +23,7 @@ function formatZipCode(value: string) {
   return digits;
 }
 
-export function CheckoutForm({ userId: _ }: CheckoutFormProps) {
+export function CheckoutForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

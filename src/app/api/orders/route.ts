@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 }
 
 // GET /api/orders
-export async function GET(_req: NextRequest) {
+export async function GET() {
   try {
     const session = await auth();
     if (!session?.user?.id) return errorResponse("Não autorizado.", 401);
