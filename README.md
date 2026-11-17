@@ -203,10 +203,10 @@ npm run db:reset
 
 ## 📝 Status de Desenvolvimento
 
-- [x] Sprint 1 — Fundação (configuração, banco, estrutura, testes unitários)
-- [ ] Sprint 2 — Autenticação + Catálogo
+- [x] Sprint 1 — Fundação (configuração, banco, estrutura, 27 testes unitários)
+- [x] Sprint 2 — Interface: shadcn/ui, layout, auth, catálogo, painel admin
 - [ ] Sprint 3 — Carrinho + Checkout + Pedidos
-- [ ] Sprint 4 — Painel Admin + Qualidade
+- [ ] Sprint 4 — Painel Admin completo + Qualidade
 - [ ] Sprint 5 — Validação + Entrega
 
 ---
