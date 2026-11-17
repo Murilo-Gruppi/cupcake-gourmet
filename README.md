@@ -35,7 +35,7 @@ Plataforma de vendas online e gerenciamento de pedidos para uma confeitaria arte
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/cupcake-gourmet.git
+git clone https://github.com/Murilo-Gruppi/cupcake-gourmet.git
 cd cupcake-gourmet
 ```
 
