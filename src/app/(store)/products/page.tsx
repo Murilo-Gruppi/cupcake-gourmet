@@ -18,7 +18,11 @@ interface ProductsPageProps {
 
 async function ProductsContent({ searchParams }: ProductsPageProps) {
   const [result, categories] = await Promise.all([
-    productService.listProducts(searchParams),
+    productService.listProducts({
+      search: searchParams.search,
+      categoryId: searchParams.categoryId,
+      page: searchParams.page ? Number(searchParams.page) : undefined,
+    }),
     productService.listCategories(),
   ]);
 
