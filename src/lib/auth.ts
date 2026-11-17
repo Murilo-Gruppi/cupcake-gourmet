@@ -1,31 +1,16 @@
+/**
+ * Configuração completa do next-auth v5 (Node.js runtime).
+ * Importa Prisma e bcryptjs — NÃO usar em middleware.
+ */
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { loginSchema } from "@/modules/auth/auth.validations";
-import type { Role } from "@prisma/client";
-
-declare module "next-auth" {
-  interface User {
-    role: Role;
-  }
-  interface Session {
-    user: {
-      id: string;
-      name: string;
-      email: string;
-      role: Role;
-    };
-  }
-}
-
-declare module "next-auth/jwt" {
-  interface JWT {
-    role: Role;
-  }
-}
+import { authConfig } from "./auth.config";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   providers: [
     Credentials({
       name: "credentials",
@@ -58,29 +43,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.sub = user.id;
-        token.role = user.role;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token.sub) {
-        session.user.id = token.sub;
-      }
-      if (token.role) {
-        session.user.role = token.role;
-      }
-      return session;
-    },
-  },
-  pages: {
-    signIn: "/login",
-    error: "/login",
-  },
-  session: {
-    strategy: "jwt",
-  },
 });

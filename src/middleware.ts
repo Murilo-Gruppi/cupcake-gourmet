@@ -1,19 +1,25 @@
-import { auth } from "@/lib/auth";
+/**
+ * Middleware do Next.js — roda no Edge Runtime.
+ * Usa authConfig (sem Prisma/bcryptjs) para verificar sessão JWT.
+ */
+import NextAuth from "next-auth";
+import { authConfig } from "@/lib/auth.config";
 import { NextResponse } from "next/server";
+
+const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;
   const session = req.auth;
 
-  // Rotas que requerem autenticação (qualquer usuário logado)
-  const protectedRoutes = ["/checkout", "/orders", "/cart"];
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    pathname.startsWith(route)
-  );
-
   // Rotas administrativas — requerem role ADMIN
   const isAdminRoute =
     pathname.startsWith("/admin") || pathname.startsWith("/api/admin");
+
+  // Rotas que requerem autenticação (qualquer usuário logado)
+  const isProtectedRoute = ["/checkout", "/orders", "/cart"].some((route) =>
+    pathname.startsWith(route)
+  );
 
   if (isAdminRoute) {
     if (!session) {
