@@ -205,7 +205,7 @@ npm run db:reset
 
 - [x] Sprint 1 — Fundação (configuração, banco, estrutura, 27 testes unitários)
 - [x] Sprint 2 — Interface: shadcn/ui, layout, auth, catálogo, painel admin
-- [ ] Sprint 3 — Carrinho + Checkout + Pedidos
+- [x] Sprint 3 — Carrinho, checkout, pedidos (cliente + admin)
 - [ ] Sprint 4 — Painel Admin completo + Qualidade
 - [ ] Sprint 5 — Validação + Entrega
 
